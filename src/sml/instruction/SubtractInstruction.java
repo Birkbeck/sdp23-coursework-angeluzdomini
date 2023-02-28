@@ -10,13 +10,13 @@ import sml.RegisterName;
  * @author
  */
 
-public class AddInstruction extends Instruction {
+public class SubtractInstruction extends Instruction {
 	private final RegisterName result;
 	private final RegisterName source;
 
 	public static final String OP_CODE = "add";
 
-	public AddInstruction(String label, RegisterName result, RegisterName source) {
+	public SubtractInstruction(String label, RegisterName result, RegisterName source) {
 		super(label, OP_CODE);
 		this.result = result;
 		this.source = source;
