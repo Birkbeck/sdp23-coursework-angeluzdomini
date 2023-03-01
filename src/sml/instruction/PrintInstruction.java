@@ -14,7 +14,7 @@ public class PrintInstruction extends Instruction {
 	private final RegisterName result;
 	private final RegisterName source;
 
-	public static final String OP_CODE = "add";
+	public static final String OP_CODE = "out";
 
 	public PrintInstruction(String label, RegisterName result, RegisterName source) {
 		super(label, OP_CODE);

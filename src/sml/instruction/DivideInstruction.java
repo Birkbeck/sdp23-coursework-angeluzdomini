@@ -14,7 +14,7 @@ public class DivideInstruction extends Instruction {
 	private final RegisterName result;
 	private final RegisterName source;
 
-	public static final String OP_CODE = "add";
+	public static final String OP_CODE = "div";
 
 	public DivideInstruction(String label, RegisterName result, RegisterName source) {
 		super(label, OP_CODE);
