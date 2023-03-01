@@ -11,28 +11,25 @@ import sml.RegisterName;
  */
 
 public class PrintInstruction extends Instruction {
-	private final RegisterName result;
 	private final RegisterName source;
 
 	public static final String OP_CODE = "out";
 
-	public PrintInstruction(String label, RegisterName result, RegisterName source) {
+	public PrintInstruction(String label, RegisterName source) {
 		super(label, OP_CODE);
-		this.result = result;
 		this.source = source;
 	}
 
 	@Override
 	public int execute(Machine m) {
-		int value1 = m.getRegisters().get(result);
-		int value2 = m.getRegisters().get(source);
-		m.getRegisters().set(result, value1 + value2);
+		int value = m.getRegisters().get(source);
+		System.out.println(value);
 		return NORMAL_PROGRAM_COUNTER_UPDATE;
 	}
 
 	@Override
 	public String toString() {
-		return getLabelString() + getOpcode() + " " + result + " " + source;
+		return getLabelString() + getOpcode() + " " + source;
 	}
 
 	/**

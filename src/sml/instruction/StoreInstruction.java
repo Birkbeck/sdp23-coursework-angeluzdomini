@@ -11,28 +11,26 @@ import sml.RegisterName;
  */
 
 public class StoreInstruction extends Instruction {
-	private final RegisterName result;
-	private final RegisterName source;
+	private final RegisterName registerName;
+	private final int registerValue;
 
 	public static final String OP_CODE = "mov";
 
-	public StoreInstruction(String label, RegisterName result, RegisterName source) {
+	public StoreInstruction(String label, RegisterName registerName, int registerValue) {
 		super(label, OP_CODE);
-		this.result = result;
-		this.source = source;
+		this.registerName = registerName;
+		this.registerValue = registerValue;
 	}
 
 	@Override
 	public int execute(Machine m) {
-		int value1 = m.getRegisters().get(result);
-		int value2 = m.getRegisters().get(source);
-		m.getRegisters().set(result, value1 + value2);
+		m.getRegisters().set(registerName, registerValue);
 		return NORMAL_PROGRAM_COUNTER_UPDATE;
 	}
 
 	@Override
 	public String toString() {
-		return getLabelString() + getOpcode() + " " + result + " " + source;
+		return getLabelString() + getOpcode() + " " + registerName + " " + registerValue;
 	}
 
 	/**

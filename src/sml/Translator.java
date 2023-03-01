@@ -72,14 +72,39 @@ public final class Translator {
                 String s = scan();
                 return new AddInstruction(label, Register.valueOf(r), Register.valueOf(s));
             }
-
-            // TODO: add code for all other types of instructions
-
+            case SubtractInstruction.OP_CODE -> {
+                String r = scan();
+                String s = scan();
+                return new SubtractInstruction(label, Register.valueOf(r), Register.valueOf(s));
+            }
+            case MultiplyInstruction.OP_CODE -> {
+                String r = scan();
+                String s = scan();
+                return new MultiplyInstruction(label, Register.valueOf(r), Register.valueOf(s));
+            }
+            case DivideInstruction.OP_CODE -> {
+                String r = scan();
+                String s = scan();
+                return new DivideInstruction(label, Register.valueOf(r), Register.valueOf(s));
+            }
+            case StoreInstruction.OP_CODE -> {
+                String r = scan();
+                String s = scan();
+                return new StoreInstruction(label, Register.valueOf(r), Integer.valueOf(s));
+            }
+            case PrintInstruction.OP_CODE -> {
+                String s = scan();
+                return new PrintInstruction(label, Register.valueOf(s));
+            }
+            case JumpIfNotZeroInstruction.OP_CODE -> {
+                String r = scan();
+                String s = scan();
+                return new JumpIfNotZeroInstruction(label, Register.valueOf(r), Register.valueOf(s));
+            }
             // TODO: Then, replace the switch by using the Reflection API
 
             // TODO: Next, use dependency injection to allow this machine class
             //       to work with different sets of opcodes (different CPUs)
-
             default -> {
                 System.out.println("Unknown instruction: " + opcode);
             }
