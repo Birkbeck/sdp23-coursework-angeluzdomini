@@ -1,5 +1,12 @@
 package sml;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import sml.instruction.*;
 
 import java.io.File;
@@ -23,6 +30,16 @@ public final class Translator {
 
     // line contains the characters in the current line that's not been processed yet
     private String line = "";
+
+    Map<String, Class<? extends Instruction>> instructionMap = Map.of(
+        AddInstruction.OP_CODE, AddInstruction.class,
+        SubtractInstruction.OP_CODE, SubtractInstruction.class,
+        MultiplyInstruction.OP_CODE, MultiplyInstruction.class,
+        DivideInstruction.OP_CODE, DivideInstruction.class,
+        PrintInstruction.OP_CODE, PrintInstruction.class,
+        StoreInstruction.OP_CODE, StoreInstruction.class,
+        JumpIfNotZeroInstruction.OP_CODE, JumpIfNotZeroInstruction.class
+    );
 
     public Translator(String fileName) {
         this.fileName =  fileName;
@@ -62,56 +79,43 @@ public final class Translator {
      * with its label already removed.
      */
     private Instruction getInstruction(String label) {
-        if (line.isEmpty())
+        if (line.isEmpty()) {
             return null;
+        }
 
         String opcode = scan();
-        switch (opcode) {
-            case AddInstruction.OP_CODE -> {
-                String r = scan();
-                String s = scan();
-                return new AddInstruction(label, Register.valueOf(r), Register.valueOf(s));
+        try {
+            Class<? extends Instruction> instructionClazz = instructionMap.get(opcode);
+            Constructor<?>[] constructors = instructionClazz.getDeclaredConstructors();
+            if (constructors.length != 1) {
+                System.err.println(
+                    "Unexpected number of constructors for class: " + instructionClazz.getName());
+                return null;
             }
-            case SubtractInstruction.OP_CODE -> {
-                String r = scan();
-                String s = scan();
-                return new SubtractInstruction(label, Register.valueOf(r), Register.valueOf(s));
+            Constructor<?> candidateConstructor = constructors[0];
+            int parameterCount = candidateConstructor.getParameterCount();
+            List<Object> args = new ArrayList<>(parameterCount);
+            args.add(label);
+            for (int i = 1; i < parameterCount; i++) {
+                args.add(scan());
             }
-            case MultiplyInstruction.OP_CODE -> {
-                String r = scan();
-                String s = scan();
-                return new MultiplyInstruction(label, Register.valueOf(r), Register.valueOf(s));
+            Object[] parameterObjs = new Object[parameterCount];
+            Class<?>[] paramCons = candidateConstructor.getParameterTypes();
+            for (int i = 0; i < parameterCount; i++) {
+                if (paramCons[i].getName().equals(RegisterName.class)) {
+                    parameterObjs[i] = Register.valueOf((String) args.get(i));
+                } else {
+                    Class<?> c = toWrapper(paramCons[i]);
+                    parameterObjs[i] = c.getConstructor(String.class).newInstance(args.get(i));
+                }
             }
-            case DivideInstruction.OP_CODE -> {
-                String r = scan();
-                String s = scan();
-                return new DivideInstruction(label, Register.valueOf(r), Register.valueOf(s));
-            }
-            case StoreInstruction.OP_CODE -> {
-                String r = scan();
-                String s = scan();
-                return new StoreInstruction(label, Register.valueOf(r), Integer.valueOf(s));
-            }
-            case PrintInstruction.OP_CODE -> {
-                String s = scan();
-                return new PrintInstruction(label, Register.valueOf(s));
-            }
-            case JumpIfNotZeroInstruction.OP_CODE -> {
-                String s = scan();
-                String nextLabel = scan();
-                return new JumpIfNotZeroInstruction(label, Register.valueOf(s), nextLabel);
-            }
-            // TODO: Then, replace the switch by using the Reflection API
-
-            // TODO: Next, use dependency injection to allow this machine class
-            //       to work with different sets of opcodes (different CPUs)
-            default -> {
-                System.out.println("Unknown instruction: " + opcode);
-            }
+            return (Instruction) candidateConstructor.newInstance(parameterObjs);
+        } catch (InvocationTargetException | InstantiationException | IllegalAccessException |
+                 NoSuchMethodException e) {
+            System.out.println(e.toString());
         }
         return null;
     }
-
 
     private String getLabel() {
         String word = scan();
@@ -138,5 +142,26 @@ public final class Translator {
             }
 
         return line;
+    }
+
+    private static final Map<Class<?>, Class<?>> PRIMITIVE_TYPE_WRAPPERS = Map.of(
+        int.class, Integer.class,
+        long.class, Long.class,
+        boolean.class, Boolean.class,
+        byte.class, Byte.class,
+        char.class, Character.class,
+        float.class, Float.class,
+        double.class, Double.class,
+        short.class, Short.class,
+        void.class, Void.class);
+
+    /**
+     * Return the correct Wrapper class
+     *
+     * @param paramClass
+     * @return Object class
+     */
+    private static Class<?> toWrapper(Class<?> paramClass) {
+        return PRIMITIVE_TYPE_WRAPPERS.getOrDefault(paramClass, paramClass);
     }
 }

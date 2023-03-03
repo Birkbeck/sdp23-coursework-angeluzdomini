@@ -6,9 +6,11 @@ import sml.Machine;
 import sml.RegisterName;
 
 /**
- * SubtractInstruction class - For subtraction operation
+ * This class ....
+ * <p>
+ * For subtraction operation
  *
- * @author Farsana Majeed Kallungal
+ * @author ...
  */
 public class SubtractInstruction extends Instruction {
 	private final RegisterName result;

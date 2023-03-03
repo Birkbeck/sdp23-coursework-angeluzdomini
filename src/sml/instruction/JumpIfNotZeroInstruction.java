@@ -7,9 +7,11 @@ import sml.Machine;
 import sml.RegisterName;
 
 /**
- * JumpIfNotZeroInstruction class - For jump if not zero operation
+ * This class ....
+ * <p>
+ * For jump if not zero operation
  *
- * @author Farsana Majeed Kallungal
+ * @author ...
  */
 public class JumpIfNotZeroInstruction extends Instruction {
 

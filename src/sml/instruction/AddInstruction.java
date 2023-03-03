@@ -6,9 +6,11 @@ import sml.Machine;
 import sml.RegisterName;
 
 /**
- * AddInstruction class - For addition operation
+ * This class ....
+ * <p>
+ * For addition operation
  *
- * @author Farsana Majeed Kallungal
+ * @author ...
  */
 public class AddInstruction extends Instruction {
 	private final RegisterName result;

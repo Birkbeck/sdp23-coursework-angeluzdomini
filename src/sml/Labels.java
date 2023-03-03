@@ -7,7 +7,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * Labels class - manages Labels and addresses for instructions
+ * This class ....
+ * <p>
+ * Manages Labels and addresses for instructions
  *
  * @author ...
  */

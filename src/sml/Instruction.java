@@ -1,8 +1,8 @@
 package sml;
 
-// TODO: write a JavaDoc for the class
-
 /**
+ * This class ....
+ * <p>
  * Represents an abstract instruction.
  *
  * @author ...

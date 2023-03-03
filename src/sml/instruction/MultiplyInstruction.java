@@ -6,9 +6,11 @@ import sml.Machine;
 import sml.RegisterName;
 
 /**
- * MultiplyInstruction class - For multiplication operation
+ * This class ....
+ * <p>
+ * For multiplication operation
  *
- * @author Farsana Majeed Kallungal
+ * @author ...
  */
 public class MultiplyInstruction extends Instruction {
 	private final RegisterName result;

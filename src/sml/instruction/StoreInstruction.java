@@ -6,9 +6,11 @@ import sml.Machine;
 import sml.RegisterName;
 
 /**
- * StoreInstruction class - For store/move operation
+ * This class ....
+ * <p>
+ * For store/move operation
  *
- * @author Farsana Majeed Kallungal
+ * @author ...
  */
 public class StoreInstruction extends Instruction {
 	private final RegisterName registerName;

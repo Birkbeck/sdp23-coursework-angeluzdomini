@@ -6,9 +6,11 @@ import sml.Machine;
 import sml.RegisterName;
 
 /**
- * DivideInstruction class - For division operation
+ * This class ....
+ *  <p>
+ * For division operation
  *
- * @author Farsana Majeed Kallungal
+ * @author ...
  */
 public class DivideInstruction extends Instruction {
 	private final RegisterName result;

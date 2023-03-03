@@ -6,9 +6,11 @@ import sml.Machine;
 import sml.RegisterName;
 
 /**
- * PrintInstruction class - For print/out operation
+ * This class ....
+ * <p>
+ * For print/out operation
  *
- * @author Farsana Majeed Kallungal
+ * @author ...
  */
 public class PrintInstruction extends Instruction {
 	private final RegisterName source;
