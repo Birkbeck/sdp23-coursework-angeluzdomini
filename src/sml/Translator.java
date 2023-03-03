@@ -97,9 +97,9 @@ public final class Translator {
                 return new PrintInstruction(label, Register.valueOf(s));
             }
             case JumpIfNotZeroInstruction.OP_CODE -> {
-                String r = scan();
                 String s = scan();
-                return new JumpIfNotZeroInstruction(label, Register.valueOf(r), Register.valueOf(s));
+                String nextLabel = scan();
+                return new JumpIfNotZeroInstruction(label, Register.valueOf(s), nextLabel);
             }
             // TODO: Then, replace the switch by using the Reflection API
 

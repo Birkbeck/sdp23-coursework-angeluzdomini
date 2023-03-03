@@ -1,10 +1,7 @@
-    mov EAX 1
-    mov EBX 1
-    mov ECX 1
-    add EBX EAX
-    sub EAX ECX
-    mul EAX ECX
-    div EAX ECX
+L1: mov EAX 66
+    mov EBX 10
+    add EAX EAX
+    mul EAX EBX
     out EAX
-    out EBX
-    out ECX
+    jnz EAX L1
+    out EAX
