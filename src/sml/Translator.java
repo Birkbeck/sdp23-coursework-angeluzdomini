@@ -31,15 +31,7 @@ public final class Translator {
     // line contains the characters in the current line that's not been processed yet
     private String line = "";
 
-    Map<String, Class<? extends Instruction>> instructionMap = Map.of(
-        AddInstruction.OP_CODE, AddInstruction.class,
-        SubtractInstruction.OP_CODE, SubtractInstruction.class,
-        MultiplyInstruction.OP_CODE, MultiplyInstruction.class,
-        DivideInstruction.OP_CODE, DivideInstruction.class,
-        PrintInstruction.OP_CODE, PrintInstruction.class,
-        StoreInstruction.OP_CODE, StoreInstruction.class,
-        JumpIfNotZeroInstruction.OP_CODE, JumpIfNotZeroInstruction.class
-    );
+    private InstructionFactory instructionFactory = new InstructionFactory();
 
     public Translator(String fileName) {
         this.fileName =  fileName;
@@ -85,7 +77,7 @@ public final class Translator {
 
         String opcode = scan();
         try {
-            Class<? extends Instruction> instructionClazz = instructionMap.get(opcode);
+            Class<? extends Instruction> instructionClazz = instructionFactory.getInstructionClass(opcode);
             Constructor<?>[] constructors = instructionClazz.getDeclaredConstructors();
             if (constructors.length != 1) {
                 System.err.println(
