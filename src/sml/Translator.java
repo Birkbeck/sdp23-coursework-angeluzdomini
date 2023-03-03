@@ -102,7 +102,9 @@ public final class Translator {
             Object[] parameterObjs = new Object[parameterCount];
             Class<?>[] paramCons = candidateConstructor.getParameterTypes();
             for (int i = 0; i < parameterCount; i++) {
-                if (paramCons[i].getName().equals(RegisterName.class.getName())) {
+                if (args.get(i) == null) {
+                    parameterObjs[i] = null;
+                } else if (paramCons[i].getName().equals(RegisterName.class.getName())) {
                     parameterObjs[i] = Register.valueOf((String) args.get(i));
                 } else {
                     Class<?> c = toWrapper(paramCons[i]);
