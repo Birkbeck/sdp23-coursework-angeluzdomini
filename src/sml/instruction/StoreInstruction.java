@@ -1,21 +1,31 @@
 package sml.instruction;
 
+import java.util.Objects;
 import sml.Instruction;
 import sml.Machine;
 import sml.RegisterName;
 
-// TODO: write a JavaDoc for the class
-
 /**
- * @author
+ * StoreInstruction class - For store/move operation
+ *
+ * @author Farsana Majeed Kallungal
  */
-
 public class StoreInstruction extends Instruction {
 	private final RegisterName registerName;
 	private final int registerValue;
 
+	/**
+	 * The constant OP_CODE.
+	 */
 	public static final String OP_CODE = "mov";
 
+	/**
+	 * Instantiates a new Store instruction.
+	 *
+	 * @param label         the label
+	 * @param registerName  the register name
+	 * @param registerValue the register value
+	 */
 	public StoreInstruction(String label, RegisterName registerName, int registerValue) {
 		super(label, OP_CODE);
 		this.registerName = registerName;
@@ -33,20 +43,18 @@ public class StoreInstruction extends Instruction {
 		return getLabelString() + getOpcode() + " " + registerName + " " + registerValue;
 	}
 
-	/**
-	 * @return
-	 */
 	@Override
 	public int hashCode() {
-		return 0;
+		return Objects.hash(label, registerName, registerValue);
 	}
 
-	/**
-	 * @param o
-	 * @return
-	 */
 	@Override
 	public boolean equals(Object o) {
+		if (o instanceof StoreInstruction other) {
+			return Objects.equals(this.label, other.label)
+					&& Objects.equals(this.registerName, other.registerName)
+					&& Objects.equals(this.registerValue, other.registerValue);
+		}
 		return false;
 	}
 }

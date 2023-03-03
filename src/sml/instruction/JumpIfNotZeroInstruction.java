@@ -1,24 +1,34 @@
 package sml.instruction;
 
 import java.util.List;
+import java.util.Objects;
 import sml.Instruction;
 import sml.Machine;
 import sml.RegisterName;
 
-// TODO: write a JavaDoc for the class
-
 /**
- * @author
+ * JumpIfNotZeroInstruction class - For jump if not zero operation
+ *
+ * @author Farsana Majeed Kallungal
  */
-
 public class JumpIfNotZeroInstruction extends Instruction {
 
 	private final RegisterName source;
 
 	private final String nextLabel;
 
+	/**
+	 * The constant OP_CODE.
+	 */
 	public static final String OP_CODE = "jnz";
 
+	/**
+	 * Instantiates a new Jump if not zero instruction.
+	 *
+	 * @param label     the label
+	 * @param source    the source
+	 * @param nextLabel the next label
+	 */
 	public JumpIfNotZeroInstruction(String label, RegisterName source, String nextLabel) {
 		super(label, OP_CODE);
 		this.source = source;
@@ -46,20 +56,17 @@ public class JumpIfNotZeroInstruction extends Instruction {
 		return getLabelString() + getOpcode() + " " + source + " " + nextLabel;
 	}
 
-	/**
-	 * @return
-	 */
-	@Override
 	public int hashCode() {
-		return 0;
+		return Objects.hash(label, source, nextLabel);
 	}
 
-	/**
-	 * @param o
-	 * @return
-	 */
 	@Override
 	public boolean equals(Object o) {
+		if (o instanceof JumpIfNotZeroInstruction other) {
+			return Objects.equals(this.label, other.label)
+					&& Objects.equals(this.source, other.source)
+					&& Objects.equals(this.nextLabel, other.nextLabel);
+		}
 		return false;
 	}
 }

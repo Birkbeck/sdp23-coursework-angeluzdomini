@@ -1,21 +1,31 @@
 package sml.instruction;
 
+import java.util.Objects;
 import sml.Instruction;
 import sml.Machine;
 import sml.RegisterName;
 
-// TODO: write a JavaDoc for the class
-
 /**
- * @author
+ * SubtractInstruction class - For subtraction operation
+ *
+ * @author Farsana Majeed Kallungal
  */
-
 public class SubtractInstruction extends Instruction {
 	private final RegisterName result;
 	private final RegisterName source;
 
+	/**
+	 * The constant OP_CODE.
+	 */
 	public static final String OP_CODE = "sub";
 
+	/**
+	 * Instantiates a new Subtract instruction.
+	 *
+	 * @param label  the label
+	 * @param result the result
+	 * @param source the source
+	 */
 	public SubtractInstruction(String label, RegisterName result, RegisterName source) {
 		super(label, OP_CODE);
 		this.result = result;
@@ -35,20 +45,18 @@ public class SubtractInstruction extends Instruction {
 		return getLabelString() + getOpcode() + " " + result + " " + source;
 	}
 
-	/**
-	 * @return
-	 */
 	@Override
 	public int hashCode() {
-		return 0;
+		return Objects.hash(label, result, source);
 	}
 
-	/**
-	 * @param o
-	 * @return
-	 */
 	@Override
 	public boolean equals(Object o) {
+		if (o instanceof SubtractInstruction other) {
+			return Objects.equals(this.label, other.label)
+					&& Objects.equals(this.result, other.result)
+					&& Objects.equals(this.source, other.source);
+		}
 		return false;
 	}
 }
