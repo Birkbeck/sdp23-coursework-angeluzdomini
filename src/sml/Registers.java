@@ -3,23 +3,32 @@ package sml;
 import java.util.*;
 import java.util.stream.Collectors;
 
-// TODO: write a JavaDoc for the class
-
 /**
+ * Registers - stores and manages different registers and values
+ * for the described enum Register.
  *
  * @author ...
  */
 public final class Registers {
     private final Map<Register, Integer> registers = new HashMap<>();
 
+    /**
+     * The enum Register.
+     */
     public enum Register implements RegisterName {
         EAX, EBX, ECX, EDX, ESP, EBP, ESI, EDI;
     }
 
+    /**
+     * Instantiates a new Registers.
+     */
     public Registers() {
         clear(); // the class is final
     }
 
+    /**
+     * Clear.
+     */
     public void clear() {
         for (Register register : Register.values())
             registers.put(register, 0);
@@ -29,7 +38,7 @@ public final class Registers {
      * Sets the given register to the value.
      *
      * @param register register name
-     * @param value new value
+     * @param value    new value
      */
     public void set(RegisterName register, int value) {
         registers.put((Register)register, value);
@@ -39,18 +48,15 @@ public final class Registers {
      * Returns the value stored in the register.
      *
      * @param register register name
-     * @return value
+     * @return value int
      */
     public int get(RegisterName register) {
         return registers.get((Register)register);
     }
 
-    // TODO: use pattern matching for instanceof
-    // https://docs.oracle.com/en/java/javase/14/language/pattern-matching-instanceof-operator.html
     @Override
     public boolean equals(Object o) {
-        if (o instanceof Registers) {
-            Registers other = (Registers) o;
+        if (o instanceof Registers other) {
             return registers.equals(other.registers);
         }
         return false;
